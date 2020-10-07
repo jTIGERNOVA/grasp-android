@@ -5,19 +5,24 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jtigernova.discoverrestaurants.R
 import com.jtigernova.discoverrestaurants.model.Restaurant
+import com.jtigernova.discoverrestaurants.view.BaseFragment
 
 /**
  * A fragment representing a list of Restaurants.
  */
-class RestaurantsFragment : Fragment() {
+class RestaurantsFragment : BaseFragment() {
     private val stateRestaurants = "restaurants"
 
     private var data: ArrayList<Restaurant>? = null
+
+    override fun onRefreshNeeded(done: () -> Unit) {
+
+        loadRestaurants(view = view as RecyclerView, done = done)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +84,9 @@ class RestaurantsFragment : Fragment() {
         return view
     }
 
-    private fun loadRestaurants(view: RecyclerView) {
+    fun loadRestaurants(view: RecyclerView, done: () -> Unit = {}) {
+        view.adapter = null
+
         //simulate a network call
         Handler().postDelayed({
             data = arrayListOf(
@@ -96,6 +103,8 @@ class RestaurantsFragment : Fragment() {
                         activity as RestaurantsAdapter.OnClickedListener
                     )
             }
+
+            done.invoke()
         }, 3000)
     }
 
