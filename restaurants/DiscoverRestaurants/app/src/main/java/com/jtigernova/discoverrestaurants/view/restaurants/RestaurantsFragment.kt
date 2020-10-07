@@ -84,7 +84,7 @@ class RestaurantsFragment : BaseFragment() {
         return view
     }
 
-    fun loadRestaurants(view: RecyclerView, done: () -> Unit = {}) {
+    private fun loadRestaurants(view: RecyclerView, done: () -> Unit = {}) {
         view.adapter = null
 
         //simulate a network call
