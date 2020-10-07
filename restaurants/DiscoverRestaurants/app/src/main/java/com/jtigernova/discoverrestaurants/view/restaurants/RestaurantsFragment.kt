@@ -12,24 +12,31 @@ import com.jtigernova.discoverrestaurants.R
 import com.jtigernova.discoverrestaurants.model.Restaurant
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of Restaurants.
  */
 class RestaurantsFragment : Fragment() {
+    private val stateRestaurants = "restaurants"
+
     private var data: ArrayList<Restaurant>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (activity !is RestaurantsAdapter.OnClickedListener) {
-            throw Exception("Activity must implement RestaurantsFragment.OnClickedListener")
+            throw Exception(
+                "Activity ${activity?.localClassName ?: "unknown"} must implement " +
+                        "RestaurantsAdapter.OnClickedListener"
+            )
         }
 
+        //handle input arguments
         arguments?.let {
 
         }
 
+        //check for restaurants in saved state
         if (savedInstanceState != null) {
-            val tData = savedInstanceState.getParcelableArrayList<Restaurant>("data")
+            val tData = savedInstanceState.getParcelableArrayList<Restaurant>(stateRestaurants)
                 ?: arrayListOf<Restaurant>()
 
             data = tData
@@ -39,8 +46,9 @@ class RestaurantsFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
+        //save restaurants
         data?.let {
-            outState.putParcelableArrayList("data", it)
+            outState.putParcelableArrayList(stateRestaurants, it)
         }
     }
 
@@ -53,6 +61,7 @@ class RestaurantsFragment : Fragment() {
             container, false
         ) as RecyclerView
 
+        //check if data has already been loaded
         data?.let {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
