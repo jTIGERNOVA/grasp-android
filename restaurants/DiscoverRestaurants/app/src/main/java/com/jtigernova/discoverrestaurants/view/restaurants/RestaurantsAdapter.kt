@@ -3,14 +3,15 @@ package com.jtigernova.discoverrestaurants.view.restaurants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.jtigernova.discoverrestaurants.R
 import com.jtigernova.discoverrestaurants.model.Restaurant
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
- * TODO: Replace the implementation with code for your data type.
+ * Restaurants Adapter
  */
 class RestaurantsAdapter(
     private val values: List<Restaurant>,
@@ -26,8 +27,16 @@ class RestaurantsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.name
+        holder.itemName.text = item.name
+        holder.itemCategory.text = item.status
+        holder.itemDistance.text = item.delivery_fee.toString()
+
+        item.cover_img_url?.let {
+            Glide.with(holder.itemView).load(it)
+                .error(R.color.colorBackground)
+                .placeholder(R.color.colorBackground)
+                .into(holder.itemImg)
+        }
 
         holder.itemView.setOnClickListener {
             onClickedListener?.onClicked(item)
@@ -41,11 +50,13 @@ class RestaurantsAdapter(
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_number)
-        val contentView: TextView = view.findViewById(R.id.content)
+        val itemImg: ImageView = view.findViewById(R.id.itemImg)
+        val itemName: TextView = view.findViewById(R.id.itemName)
+        val itemCategory: TextView = view.findViewById(R.id.itemCategory)
+        val itemDistance: TextView = view.findViewById(R.id.itemDistance)
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + itemName.text + "'"
         }
     }
 }

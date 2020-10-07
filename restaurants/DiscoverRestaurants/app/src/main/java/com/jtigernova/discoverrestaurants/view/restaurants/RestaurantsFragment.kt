@@ -5,7 +5,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jtigernova.discoverrestaurants.R
 import com.jtigernova.discoverrestaurants.model.Restaurant
@@ -69,7 +68,6 @@ class RestaurantsFragment : BaseFragment() {
         //check if data has already been loaded
         data?.let {
             with(view) {
-                layoutManager = LinearLayoutManager(context)
                 adapter =
                     RestaurantsAdapter(
                         it,
@@ -117,7 +115,6 @@ class RestaurantsFragment : BaseFragment() {
             )
 
             with(view) {
-                layoutManager = LinearLayoutManager(context)
                 adapter =
                     RestaurantsAdapter(
                         data ?: listOf(),

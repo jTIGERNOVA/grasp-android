@@ -47,11 +47,20 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.OnClickedListener,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_refresh -> {
-                onRefresh()
+                //do not refresh if user is not on restaurants fragment
+                if (isOnMainFragment()) {
+                    onRefresh()
+                }
+                //TODO ELSE either fresh something or remove the menu item
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun isOnMainFragment(): Boolean {
+        return supportFragmentManager.backStackEntryCount <= 1
     }
 
     override fun onClicked(restaurant: Restaurant) {
