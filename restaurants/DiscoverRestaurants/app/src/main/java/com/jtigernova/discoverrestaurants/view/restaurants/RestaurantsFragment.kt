@@ -90,9 +90,30 @@ class RestaurantsFragment : BaseFragment() {
         //simulate a network call
         Handler().postDelayed({
             data = arrayListOf(
-                Restaurant("0", "R 1", "The best", "http", "yes", 1.20f),
-                Restaurant("0", "R 1", "The best", "http", "yes", 1.20f),
-                Restaurant("0", "R 1", "The best", "http", "yes", 1.20f)
+                Restaurant(
+                    "0",
+                    "Rom 1",
+                    "The best",
+                    "https://random.dog/35d14852-2c6e-4cb6-94af-7de46ffc36d0.jpg",
+                    "30 mins",
+                    1.20f
+                ),
+                Restaurant(
+                    "0",
+                    "Rom 1 1",
+                    "The best 2",
+                    "https://random.dog/35d14852-2c6e-4cb6-94af-7de46ffc36d0.jpg",
+                    "25 mins",
+                    1.20f
+                ),
+                Restaurant(
+                    "0",
+                    "Rom 4 1",
+                    "The best 3",
+                    "https://random.dog/35d14852-2c6e-4cb6-94af-7de46ffc36d0.jpg",
+                    "closed",
+                    null
+                )
             )
 
             with(view) {
