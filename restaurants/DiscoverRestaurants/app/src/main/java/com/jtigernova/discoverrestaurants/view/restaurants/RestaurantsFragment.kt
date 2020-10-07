@@ -74,6 +74,13 @@ class RestaurantsFragment : Fragment() {
             return view
         }
 
+        loadRestaurants(view = view)
+
+        return view
+    }
+
+    private fun loadRestaurants(view: RecyclerView) {
+        //simulate a network call
         Handler().postDelayed({
             data = arrayListOf(
                 Restaurant("0", "R 1", "The best", "http", "yes", 1.20f),
@@ -89,10 +96,7 @@ class RestaurantsFragment : Fragment() {
                         activity as RestaurantsAdapter.OnClickedListener
                     )
             }
-        }, 4000)
-
-
-        return view
+        }, 3000)
     }
 
     companion object {
