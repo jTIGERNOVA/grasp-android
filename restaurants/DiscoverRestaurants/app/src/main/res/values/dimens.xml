@@ -4,5 +4,5 @@
     <dimen name="std_padding">16dp</dimen>
     <dimen name="std_text_normal">18sp</dimen>
     <dimen name="std_text_large">26sp</dimen>
-    <dimen name="std_text_xlarge">40sp</dimen>
+    <dimen name="std_text_xlarge">30sp</dimen>
 </resources>
