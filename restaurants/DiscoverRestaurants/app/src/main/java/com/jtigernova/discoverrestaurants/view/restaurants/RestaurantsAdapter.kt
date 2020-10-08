@@ -38,12 +38,21 @@ class RestaurantsAdapter(
                 .into(holder.itemImg)
         }
 
+        //pass on click to restaurant listener
         holder.itemView.setOnClickListener {
             restaurantListener?.onClicked(item)
         }
     }
 
+    /**
+     * Restaurant listener for events
+     */
     interface IRestaurantListener {
+        /**
+         * When a restaurant has been clicked
+         *
+         * @param restaurant Restaurant that was clicked
+         */
         fun onClicked(restaurant: Restaurant)
     }
 
@@ -56,7 +65,7 @@ class RestaurantsAdapter(
         val itemDistance: TextView = view.findViewById(R.id.itemDistance)
 
         override fun toString(): String {
-            return super.toString() + " '" + itemName.text + "'"
+            return super.toString() + " '${itemName.text}'"
         }
     }
 }

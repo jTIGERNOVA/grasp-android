@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.view.BaseFragment
@@ -11,6 +12,9 @@ import com.jtigernova.discoverrestaurants.view.restaurant.RestaurantDetailFragme
 import com.jtigernova.discoverrestaurants.view.restaurants.RestaurantsAdapter
 import com.jtigernova.discoverrestaurants.view.restaurants.RestaurantsFragment
 
+/**
+ * Main activity
+ */
 class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener,
     SwipeRefreshLayout.OnRefreshListener {
 
@@ -26,13 +30,9 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
         swipeRefreshLayout = findViewById(R.id.refresh)
         swipeRefreshLayout.setOnRefreshListener(this)
 
+        //only on first creation
         if (savedInstanceState == null) {
-            val restaurantsFragment = RestaurantsFragment.newInstance()
-
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment, restaurantsFragment, keyRestaurants)
-                .addToBackStack(keyBackStack)
-                .commit()
+            goToFragment(fragment = RestaurantsFragment.newInstance())
         }
     }
 
@@ -60,15 +60,15 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
         return supportFragmentManager.backStackEntryCount <= 1
     }
 
-    override fun onClicked(restaurant: Restaurant) {
+    private fun goToFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.fragment,
-                RestaurantDetailFragment.newInstance(restaurant),
-                keyRestaurants
-            )
+            .replace(R.id.fragment, fragment, keyRestaurants)
             .addToBackStack(keyBackStack)
             .commit()
+    }
+
+    override fun onClicked(restaurant: Restaurant) {
+        goToFragment(fragment = RestaurantDetailFragment.newInstance(restaurant))
     }
 
     override fun onBackPressed() {

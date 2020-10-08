@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.jtigernova.discoverrestaurants.R
-import com.jtigernova.discoverrestaurants.api.DoorDash
 import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.view.BaseFragment
 
@@ -22,6 +21,7 @@ class RestaurantsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //check activity
         if (activity !is RestaurantsAdapter.IRestaurantListener) {
             throw Exception(
                 "Activity ${activity?.localClassName ?: "unknown"} must implement " +
@@ -68,6 +68,7 @@ class RestaurantsFragment : BaseFragment() {
             return view
         }
 
+        //show progress during data loading
         val progress = ProgressBar(requireContext())
 
         with(progress) {
@@ -79,25 +80,40 @@ class RestaurantsFragment : BaseFragment() {
 
         //data not loaded, so load it
         loadRestaurants(view = view) {
+            //not loading anymore
             container?.removeView(progress)
         }
 
         return view
     }
 
+    /**
+     * Handles when a refresh is needed for the fragment
+     *
+     * @param done Function to run when refresh has finished
+     */
     override fun onRefreshNeeded(done: () -> Unit) {
 
         loadRestaurants(view = view as RecyclerView, done = done)
     }
 
+    /**
+     * Loads restaurant data via Door Dash api
+     *
+     * @param view View
+     * @param done Function to run when refresh has finished
+     */
     private fun loadRestaurants(view: RecyclerView, done: () -> Unit = {}) {
         view.adapter = null
 
+        //define a coroutine function to all coroutine api execution
+        //fire always executes on the main thread
         fire {
+            //coordinates given by test maker, so we hardcode
             val lat = 37.422740f
             val lng = -122.139956f
 
-            data = DoorDash(this).getRestaurants(lat = lat, lng = lng)
+            data = doorDash().getRestaurants(lat = lat, lng = lng)
 
             with(view) {
                 adapter =

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- *
+ * Restaurant
  */
 @Parcelize
 data class Restaurant(

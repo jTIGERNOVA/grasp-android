@@ -6,4 +6,5 @@
     <string name="format_delivery_fee">%s delivery fee</string>
     <string name="format_status">%s delivery</string>
     <string name="closed">closed</string>
+    <string name="item_border">Item Border</string>
 </resources>

@@ -8,7 +8,7 @@ import android.os.Build
  */
 
 /**
- * Presents float in the current currency
+ * Presents a number as currency. Uses the current currency on the device
  */
 fun Float?.toMoney(): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
