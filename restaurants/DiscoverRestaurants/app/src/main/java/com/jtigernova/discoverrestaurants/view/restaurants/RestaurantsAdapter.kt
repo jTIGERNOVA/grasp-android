@@ -15,7 +15,7 @@ import com.jtigernova.discoverrestaurants.model.Restaurant
  */
 class RestaurantsAdapter(
     private val values: List<Restaurant>,
-    private val onClickedListener: OnClickedListener?
+    private val restaurantListener: IRestaurantListener?
 ) : RecyclerView.Adapter<RestaurantsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,11 +39,11 @@ class RestaurantsAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            onClickedListener?.onClicked(item)
+            restaurantListener?.onClicked(item)
         }
     }
 
-    interface OnClickedListener {
+    interface IRestaurantListener {
         fun onClicked(restaurant: Restaurant)
     }
 

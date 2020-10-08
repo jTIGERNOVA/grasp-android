@@ -11,7 +11,7 @@ import com.jtigernova.discoverrestaurants.view.restaurant.RestaurantDetailFragme
 import com.jtigernova.discoverrestaurants.view.restaurants.RestaurantsAdapter
 import com.jtigernova.discoverrestaurants.view.restaurants.RestaurantsFragment
 
-class MainActivity : AppCompatActivity(), RestaurantsAdapter.OnClickedListener,
+class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener,
     SwipeRefreshLayout.OnRefreshListener {
 
     private val keyRestaurants = "restaurants"
@@ -47,11 +47,8 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.OnClickedListener,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_refresh -> {
-                //do not refresh if user is not on restaurants fragment
-                if (isOnMainFragment()) {
-                    onRefresh()
-                }
-                //TODO ELSE either fresh something or remove the menu item
+
+                onRefresh()
 
                 true
             }
@@ -84,6 +81,14 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.OnClickedListener,
     }
 
     override fun onRefresh() {
+        if (!isOnMainFragment()) {
+            //do not refresh if user is not on restaurants fragment
+            //TODO ELSE either fresh something or remove the menu item
+            swipeRefreshLayout.isRefreshing = false
+
+            return
+        }
+
         swipeRefreshLayout.isRefreshing = true
 
         supportFragmentManager.fragments.forEach {

@@ -1,12 +1,13 @@
 package com.jtigernova.discoverrestaurants.view.restaurants
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.jtigernova.discoverrestaurants.R
+import com.jtigernova.discoverrestaurants.api.DoorDash
 import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.view.BaseFragment
 
@@ -18,24 +19,14 @@ class RestaurantsFragment : BaseFragment() {
 
     private var data: ArrayList<Restaurant>? = null
 
-    override fun onRefreshNeeded(done: () -> Unit) {
-
-        loadRestaurants(view = view as RecyclerView, done = done)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (activity !is RestaurantsAdapter.OnClickedListener) {
+        if (activity !is RestaurantsAdapter.IRestaurantListener) {
             throw Exception(
                 "Activity ${activity?.localClassName ?: "unknown"} must implement " +
                         "RestaurantsAdapter.OnClickedListener"
             )
-        }
-
-        //handle input arguments
-        arguments?.let {
-
         }
 
         //check for restaurants in saved state
@@ -71,59 +62,53 @@ class RestaurantsFragment : BaseFragment() {
                 adapter =
                     RestaurantsAdapter(
                         it,
-                        activity as RestaurantsAdapter.OnClickedListener
+                        activity as RestaurantsAdapter.IRestaurantListener
                     )
             }
             return view
         }
 
-        loadRestaurants(view = view)
+        val progress = ProgressBar(requireContext())
+
+        with(progress) {
+            layoutParams = ViewGroup.LayoutParams(100, 100)
+            isIndeterminate = true
+
+            container?.addView(this)
+        }
+
+        //data not loaded, so load it
+        loadRestaurants(view = view) {
+            container?.removeView(progress)
+        }
 
         return view
+    }
+
+    override fun onRefreshNeeded(done: () -> Unit) {
+
+        loadRestaurants(view = view as RecyclerView, done = done)
     }
 
     private fun loadRestaurants(view: RecyclerView, done: () -> Unit = {}) {
         view.adapter = null
 
-        //simulate a network call
-        Handler().postDelayed({
-            data = arrayListOf(
-                Restaurant(
-                    "0",
-                    "Rom 1",
-                    "The best",
-                    "https://random.dog/35d14852-2c6e-4cb6-94af-7de46ffc36d0.jpg",
-                    "30 mins",
-                    1.20f
-                ),
-                Restaurant(
-                    "0",
-                    "Rom 1 1",
-                    "The best 2",
-                    "https://random.dog/35d14852-2c6e-4cb6-94af-7de46ffc36d0.jpg",
-                    "25 mins",
-                    1.20f
-                ),
-                Restaurant(
-                    "0",
-                    "Rom 4 1",
-                    "The best 3",
-                    "https://random.dog/35d14852-2c6e-4cb6-94af-7de46ffc36d0.jpg",
-                    "closed",
-                    null
-                )
-            )
+        fire {
+            val lat = 37.422740f
+            val lng = -122.139956f
+
+            data = DoorDash(this).getRestaurants(lat = lat, lng = lng)
 
             with(view) {
                 adapter =
                     RestaurantsAdapter(
                         data ?: listOf(),
-                        activity as RestaurantsAdapter.OnClickedListener
+                        activity as RestaurantsAdapter.IRestaurantListener
                     )
             }
 
-            done.invoke()
-        }, 3000)
+            done()
+        }
     }
 
     companion object {

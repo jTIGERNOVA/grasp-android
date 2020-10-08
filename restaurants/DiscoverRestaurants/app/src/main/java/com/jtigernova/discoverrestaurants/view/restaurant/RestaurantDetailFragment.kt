@@ -14,7 +14,7 @@ import com.jtigernova.discoverrestaurants.view.toMoney
 
 
 /**
- * A simple [Fragment] subclass.
+ * Restaurant detail fragment
  * Use the [RestaurantFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
