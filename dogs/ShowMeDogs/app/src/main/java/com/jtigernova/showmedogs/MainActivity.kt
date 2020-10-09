@@ -1,6 +1,8 @@
 package com.jtigernova.showmedogs
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var requestQueue: RequestQueue
 
+    class DogData(val url: String?)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,10 +40,17 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         onRefresh()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
 
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.refresh -> onRefresh()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStop() {
@@ -48,11 +59,9 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         requestQueue.cancelAll(null)
     }
 
-    class DogData(val url: String?)
-
     private fun error() {
         Toast.makeText(
-            this, "Dog not FOUND!",
+            this, getString(R.string.dog_not_found),
             Toast.LENGTH_LONG
         ).show()
     }
@@ -67,7 +76,8 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
                     val url = Gson().fromJson(response, DogData::class.java).url
 
                     url?.let {
-                        Glide.with(this).load(it).into(dog)
+                        Glide.with(this).load(it).placeholder(R.drawable.ic_downloading)
+                            .error(R.drawable.ic_network_error).into(dog)
                     }
 
                     swipeRefreshLayout.isRefreshing = false
