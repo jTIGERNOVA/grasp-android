@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -54,6 +55,18 @@
                 android:text="@string/na"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/std_text_normal" />
+
+            <TextView
+                android:id="@+id/itemRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/na"
+                android:textAppearance="?attr/textAppearanceListItemSmall"
+                android:textSize="@dimen/std_text_small"
+                android:textStyle="italic"
+                app:drawableEndCompat="@drawable/ic_star"
+                app:drawableRightCompat="@drawable/ic_star" />
 
         </LinearLayout>
 

@@ -28,6 +28,7 @@ class RestaurantsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.itemName.text = item.name
+        holder.itemRating.text = item.average_rating
         holder.itemCategory.text =
             holder.itemView.context.getString(R.string.format_status, item.status)
 
@@ -41,6 +42,10 @@ class RestaurantsAdapter(
         //pass on click to restaurant listener
         holder.itemView.setOnClickListener {
             restaurantListener?.onClicked(item)
+        }
+
+        if (item.average_rating == "0.0" || item.average_rating.isNullOrBlank()) {
+            holder.itemRating.visibility = View.INVISIBLE
         }
     }
 
@@ -62,6 +67,7 @@ class RestaurantsAdapter(
         val itemImg: ImageView = view.findViewById(R.id.itemImg)
         val itemName: TextView = view.findViewById(R.id.itemName)
         val itemCategory: TextView = view.findViewById(R.id.itemCategory)
+        val itemRating: TextView = view.findViewById(R.id.itemRating)
 
         override fun toString(): String {
             return super.toString() + " '${itemName.text}'"
