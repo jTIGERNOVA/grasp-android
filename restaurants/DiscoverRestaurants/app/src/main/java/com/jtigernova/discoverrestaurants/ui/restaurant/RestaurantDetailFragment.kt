@@ -1,4 +1,4 @@
-package com.jtigernova.discoverrestaurants.view.restaurant
+package com.jtigernova.discoverrestaurants.ui.restaurant
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.jtigernova.discoverrestaurants.R
 import com.jtigernova.discoverrestaurants.model.Restaurant
-import com.jtigernova.discoverrestaurants.view.toMoney
+import com.jtigernova.discoverrestaurants.ui.toMoney
 
 
 /**

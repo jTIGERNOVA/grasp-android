@@ -1,4 +1,4 @@
-package com.jtigernova.discoverrestaurants.view.restaurants
+package com.jtigernova.discoverrestaurants.ui.restaurants
 
 import android.view.LayoutInflater
 import android.view.View

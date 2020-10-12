@@ -1,8 +1,8 @@
-package com.jtigernova.designpatterns.mydog.ui
+package com.jtigernova.discoverrestaurants.ui.base
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.jtigernova.designpatterns.log
+import com.jtigernova.discoverrestaurants.ui.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

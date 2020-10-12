@@ -1,7 +1,8 @@
-package com.jtigernova.discoverrestaurants.view
+package com.jtigernova.discoverrestaurants.ui
 
 import android.icu.text.NumberFormat
 import android.os.Build
+import android.util.Log
 
 /**
  * App extensions
@@ -16,4 +17,9 @@ fun Float?.toMoney(): String {
     } else {
         java.text.NumberFormat.getCurrencyInstance().format(this ?: 0F)
     }
+}
+
+fun String.log() {
+    //if (BuildConfig.DEBUG)
+        Log.d("General", this)
 }

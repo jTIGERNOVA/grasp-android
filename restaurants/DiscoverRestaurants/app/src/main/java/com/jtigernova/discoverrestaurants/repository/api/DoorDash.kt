@@ -1,20 +1,22 @@
-package com.jtigernova.discoverrestaurants.api
+package com.jtigernova.discoverrestaurants.repository.api
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jtigernova.discoverrestaurants.model.Restaurant
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
 /**
  * Door Dash api.
  *
- * @param scope Containing scope for all api calls
  */
 //suppress warning because warning does not acknowledge coroutines as background processing
 @Suppress("BlockingMethodInNonBlockingContext")
-class DoorDash(private val scope: CoroutineScope) {
+class DoorDash() : IRestaurantApi {
 
     companion object {
         /**
@@ -23,17 +25,19 @@ class DoorDash(private val scope: CoroutineScope) {
         const val api = "https://api.doordash.com/v2/restaurant/"
     }
 
+    override var scope: CoroutineScope? = null
+
     /**
      * Using the current scope, runs a coroutine after switching to a background context
      *
      * @param block suspend function to run
      */
-    private fun net(block: suspend CoroutineScope.() -> Unit): Job {
-        return scope.launch(
+    private suspend fun net(block: suspend CoroutineScope.() -> Unit) {
+        scope?.launch(
             //switch to background context/thread
             context = Dispatchers.IO,
             start = CoroutineStart.DEFAULT, block = block
-        )
+        )?.join()
     }
 
     /**
@@ -42,7 +46,7 @@ class DoorDash(private val scope: CoroutineScope) {
      * @param lat Latitude
      * @param lng Longitude
      */
-    suspend fun getRestaurants(lat: Float, lng: Float): ArrayList<Restaurant> {
+    override suspend fun getRestaurants(lat: Float, lng: Float): ArrayList<Restaurant> {
         var res = arrayListOf<Restaurant>()
 
         //run in background
@@ -66,7 +70,7 @@ class DoorDash(private val scope: CoroutineScope) {
 
                 res = ArrayList(tRestaurants.toList())
             }
-        }.join()
+        }
 
         return res
     }

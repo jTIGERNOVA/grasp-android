@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Discover Restaurants</string>
-    <string name="refresh">Refresh</string>
     <string name="na">NA</string>
     <string name="restaurant_logo">Restaurant Logo</string>
     <string name="format_delivery_fee">%s delivery fee</string>
