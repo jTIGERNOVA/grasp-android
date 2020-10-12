@@ -62,7 +62,6 @@ class RestaurantsAdapter(
         val itemImg: ImageView = view.findViewById(R.id.itemImg)
         val itemName: TextView = view.findViewById(R.id.itemName)
         val itemCategory: TextView = view.findViewById(R.id.itemCategory)
-        val itemDistance: TextView = view.findViewById(R.id.itemDistance)
 
         override fun toString(): String {
             return super.toString() + " '${itemName.text}'"

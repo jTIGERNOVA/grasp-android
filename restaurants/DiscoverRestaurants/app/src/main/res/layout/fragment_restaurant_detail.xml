@@ -49,7 +49,6 @@
             android:textSize="@dimen/std_text_normal"
             app:layout_constraintTop_toBottomOf="@id/restaurantDeliveryFee" />
 
-
         <TextView
             android:id="@+id/restaurantDesc"
             android:layout_width="wrap_content"
@@ -60,6 +59,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/restaurantStatus" />
 
-
+        <TextView
+            android:id="@+id/restaurantWebsite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/std_padding_large"
+            android:autoLink="web"
+            android:text="@string/website"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restaurantDesc" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

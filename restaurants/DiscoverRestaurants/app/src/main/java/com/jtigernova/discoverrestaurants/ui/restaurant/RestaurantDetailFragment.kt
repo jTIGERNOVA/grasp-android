@@ -1,5 +1,7 @@
 package com.jtigernova.discoverrestaurants.ui.restaurant
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,24 +36,34 @@ class RestaurantDetailFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_restaurant_detail, container, false)
 
-        restaurant?.let {
-            view.findViewById<TextView>(R.id.restaurantName).text = it.name
-            view.findViewById<TextView>(R.id.restaurantDesc).text = it.description
+        restaurant?.let { tRest ->
+            view.findViewById<TextView>(R.id.restaurantName).text = tRest.name
+            view.findViewById<TextView>(R.id.restaurantDesc).text = tRest.description
             view.findViewById<TextView>(R.id.restaurantDeliveryFee).text =
                 getString(
-                    R.string.format_delivery_fee, it.delivery_fee.toMoney()
+                    R.string.format_delivery_fee, tRest.delivery_fee.toMoney()
                 )
+            view.findViewById<TextView>(R.id.restaurantWebsite).setOnClickListener {
+                tRest.url?.let { tUrl ->
+                    val url = "https://doordash.com$tUrl"
 
-            if (it.status == "closed") {
+                    with(Intent(Intent.ACTION_VIEW)) {
+                        data = Uri.parse(url)
+                        requireActivity().startActivity(this)
+                    }
+                }
+            }
+
+            if (tRest.status == "closed") {
                 view.findViewById<TextView>(R.id.restaurantStatus).text = getString(R.string.closed)
             } else {
                 view.findViewById<TextView>(R.id.restaurantStatus).text =
-                    getString(R.string.format_status, it.status)
+                    getString(R.string.format_status, tRest.status)
             }
 
             val img = view.findViewById<ImageView>(R.id.restaurantImg)
 
-            it.cover_img_url?.let { restaurantImg ->
+            tRest.cover_img_url?.let { restaurantImg ->
                 Glide.with(requireContext()).load(restaurantImg)
                     .error(R.color.colorBackground)
                     .placeholder(R.color.colorBackground)
