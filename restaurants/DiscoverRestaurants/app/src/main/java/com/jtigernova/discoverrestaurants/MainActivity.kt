@@ -1,6 +1,7 @@
 package com.jtigernova.discoverrestaurants
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.jtigernova.discoverrestaurants.model.Restaurant
@@ -43,10 +44,21 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
 
     override fun onClicked(restaurant: Restaurant) {
         goToFragment(fragment = RestaurantDetailFragment.newInstance(restaurant))
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         //check if all fragments are off the stack, if so, pop the stack to finish the activity
         if (supportFragmentManager.backStackEntryCount == 0) {
