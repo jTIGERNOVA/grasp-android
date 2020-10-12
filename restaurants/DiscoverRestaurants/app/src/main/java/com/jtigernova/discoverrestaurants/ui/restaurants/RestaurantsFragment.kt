@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class RestaurantsFragment : BaseFragment() {
     private val viewModel: RestaurantsViewModel by viewModels()
 
+    private lateinit var progressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,6 +32,8 @@ class RestaurantsFragment : BaseFragment() {
                         "RestaurantsAdapter.OnClickedListener"
             )
         }
+
+        viewModel.loadingData.value = true
     }
 
     override fun onStart() {
@@ -36,10 +41,19 @@ class RestaurantsFragment : BaseFragment() {
 
         if (viewModel.restaurantsData.hasActiveObservers()) return
 
-        viewModel.restaurantsData.value?.observe(viewLifecycleOwner) {
+        viewModel.loadingData.observe(viewLifecycleOwner) {
+            if (it) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                progressBar.visibility = View.GONE
+            }
+        }
 
-            loadRestaurants(data = it, view = view as RecyclerView) {
-
+        viewModel.restaurantsData.value?.observe(viewLifecycleOwner) { data ->
+            view?.findViewById<RecyclerView>(R.id.list)?.let {
+                loadRestaurants(data = data, view = it) {
+                    viewModel.loadingData.value = false
+                }
             }
         }
     }
@@ -48,10 +62,13 @@ class RestaurantsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
+        val v = inflater.inflate(
             R.layout.fragment_restaurants_list,
             container, false
-        ) as RecyclerView
+        )
+        progressBar = v.findViewById(R.id.progress)
+
+        return v
     }
 
     /**
