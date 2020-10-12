@@ -28,8 +28,8 @@ class RestaurantsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.itemName.text = item.name
-        holder.itemCategory.text = item.status
-        holder.itemDistance.text = item.delivery_fee.toString()
+        holder.itemCategory.text =
+            holder.itemView.context.getString(R.string.format_status, item.status)
 
         item.cover_img_url?.let {
             Glide.with(holder.itemView).load(it)
