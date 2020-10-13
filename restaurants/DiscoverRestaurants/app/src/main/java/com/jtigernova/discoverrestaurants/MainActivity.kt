@@ -28,8 +28,9 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
 
     companion object {
         const val REQUEST_CODE_LOCATION_PERMISSION = 29
-        const val provider = LocationManager.GPS_PROVIDER
-        const val service = Context.LOCATION_SERVICE
+
+        const val locationProvider = LocationManager.GPS_PROVIDER
+        const val locationService = Context.LOCATION_SERVICE
 
         const val backupLat = 37.422740
         const val backupLng = -122.139956
@@ -74,9 +75,9 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
 
     @SuppressLint("MissingPermission")
     private fun goToRestaurants() {
-        val locationManager = getSystemService(service)
+        val locationManager = getSystemService(locationService)
                 as LocationManager
-        val loc = locationManager.getLastKnownLocation(provider)
+        val loc = locationManager.getLastKnownLocation(locationProvider)
 
         goToFragment(
             //coordinates given by test maker, so we hardcode
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode != REQUEST_CODE_LOCATION_PERMISSION) {
+
             return
         }
 

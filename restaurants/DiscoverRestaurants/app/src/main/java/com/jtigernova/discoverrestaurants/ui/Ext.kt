@@ -3,6 +3,7 @@ package com.jtigernova.discoverrestaurants.ui
 import android.icu.text.NumberFormat
 import android.os.Build
 import android.util.Log
+import com.jtigernova.discoverrestaurants.BuildConfig
 
 /**
  * App extensions
@@ -20,6 +21,6 @@ fun Float?.toMoney(): String {
 }
 
 fun String.log() {
-    //if (BuildConfig.DEBUG)
+    if (BuildConfig.DEBUG)
         Log.d("General", this)
 }
