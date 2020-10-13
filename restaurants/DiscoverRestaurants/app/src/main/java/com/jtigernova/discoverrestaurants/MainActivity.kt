@@ -1,67 +1,92 @@
 package com.jtigernova.discoverrestaurants
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
-import android.view.Menu
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-<<<<<<< Updated upstream
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-=======
 import com.jtigernova.discoverrestaurants.model.IRestaurant
->>>>>>> Stashed changes
 import com.jtigernova.discoverrestaurants.model.Restaurant
-import com.jtigernova.discoverrestaurants.view.BaseFragment
-import com.jtigernova.discoverrestaurants.view.restaurant.RestaurantDetailFragment
-import com.jtigernova.discoverrestaurants.view.restaurants.RestaurantsAdapter
-import com.jtigernova.discoverrestaurants.view.restaurants.RestaurantsFragment
+import com.jtigernova.discoverrestaurants.ui.restaurant.RestaurantDetailFragment
+import com.jtigernova.discoverrestaurants.ui.restaurants.RestaurantsAdapter
+import com.jtigernova.discoverrestaurants.ui.restaurants.RestaurantsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Main activity
  */
-class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener,
-    SwipeRefreshLayout.OnRefreshListener {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener {
+
+    companion object {
+        const val REQUEST_CODE_LOCATION_PERMISSION = 29
+
+        const val locationProvider = LocationManager.GPS_PROVIDER
+        const val locationService = Context.LOCATION_SERVICE
+
+        const val backupLat = 37.422740
+        const val backupLng = -122.139956
+    }
 
     private val keyRestaurants = "restaurants"
     private val keyBackStack = "stack"
-
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        swipeRefreshLayout = findViewById(R.id.refresh)
-        swipeRefreshLayout.setOnRefreshListener(this)
-
         //only on first creation
-        if (savedInstanceState == null) {
-            goToFragment(fragment = RestaurantsFragment.newInstance())
+        if (savedInstanceState != null) {
+            return
+        }
+
+        tryRestaurantLoad()
+    }
+
+    private fun tryRestaurantLoad() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            goToRestaurants()
+            return
+        }
+
+        val hasPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf("android.permission.ACCESS_FINE_LOCATION"),
+                REQUEST_CODE_LOCATION_PERMISSION
+            )
+        } else {
+            goToRestaurants()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
+    @SuppressLint("MissingPermission")
+    private fun goToRestaurants() {
+        val locationManager = getSystemService(locationService)
+                as LocationManager
+        val loc = locationManager.getLastKnownLocation(locationProvider)
 
-        menuInflater.inflate(R.menu.menu, menu)
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_refresh -> {
-
-                onRefresh()
-
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun isOnMainFragment(): Boolean {
-        return supportFragmentManager.backStackEntryCount <= 1
+        goToFragment(
+            //coordinates given by test maker, so we hardcode
+            fragment = RestaurantsFragment.newInstance(
+                lat = loc?.latitude ?: backupLat,
+                lng = loc?.longitude ?: backupLng
+            )
+        )
     }
 
     private fun goToFragment(fragment: Fragment) {
@@ -73,10 +98,21 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
 
     override fun onClicked(restaurant: IRestaurant) {
         goToFragment(fragment = RestaurantDetailFragment.newInstance(restaurant))
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         //check if all fragments are off the stack, if so, pop the stack to finish the activity
         if (supportFragmentManager.backStackEntryCount == 0) {
@@ -84,23 +120,37 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
         }
     }
 
-    override fun onRefresh() {
-        if (!isOnMainFragment()) {
-            //do not refresh if user is not on restaurants fragment
-            //TODO ELSE either fresh something or remove the menu item
-            swipeRefreshLayout.isRefreshing = false
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode != REQUEST_CODE_LOCATION_PERMISSION) {
 
             return
         }
 
-        swipeRefreshLayout.isRefreshing = true
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            goToRestaurants()
+        } else {
+            Log.e(
+                "Main", "User denied location permission :(. " +
+                        "Will not start location monitor"
+            )
 
-        supportFragmentManager.fragments.forEach {
-            if (it is BaseFragment) {
-                it.onRefreshNeeded {
-                    swipeRefreshLayout.isRefreshing = false
-                }
-            }
+            Toast.makeText(
+                this, getString(R.string.permission_denied),
+                Toast.LENGTH_LONG
+            ).show()
+
+            goToFragment(
+                //coordinates given by test maker, so we hardcode
+                fragment = RestaurantsFragment.newInstance(
+                    lat = backupLat,
+                    lng = backupLng
+                )
+            )
         }
     }
 }
