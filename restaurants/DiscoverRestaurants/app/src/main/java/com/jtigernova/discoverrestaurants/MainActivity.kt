@@ -5,7 +5,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+<<<<<<< Updated upstream
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+=======
+import com.jtigernova.discoverrestaurants.model.IRestaurant
+>>>>>>> Stashed changes
 import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.view.BaseFragment
 import com.jtigernova.discoverrestaurants.view.restaurant.RestaurantDetailFragment
@@ -67,7 +71,7 @@ class MainActivity : AppCompatActivity(), RestaurantsAdapter.IRestaurantListener
             .commit()
     }
 
-    override fun onClicked(restaurant: Restaurant) {
+    override fun onClicked(restaurant: IRestaurant) {
         goToFragment(fragment = RestaurantDetailFragment.newInstance(restaurant))
     }
 

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.jtigernova.discoverrestaurants.R
+import com.jtigernova.discoverrestaurants.model.IRestaurant
 import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.view.toMoney
 
@@ -66,10 +67,10 @@ class RestaurantDetailFragment : Fragment() {
         private const val ARG_RESTAURANT = "restaurant"
 
         @JvmStatic
-        fun newInstance(restaurant: Restaurant) =
+        fun newInstance(restaurant: IRestaurant) =
             RestaurantDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(ARG_RESTAURANT, restaurant)
+                    putParcelable(ARG_RESTAURANT, restaurant.asParcelable())
                 }
             }
     }

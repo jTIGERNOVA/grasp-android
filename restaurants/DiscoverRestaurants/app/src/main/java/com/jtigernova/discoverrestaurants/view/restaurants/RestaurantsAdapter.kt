@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jtigernova.discoverrestaurants.R
-import com.jtigernova.discoverrestaurants.model.Restaurant
+import com.jtigernova.discoverrestaurants.model.IRestaurant
 
 /**
  * Restaurants Adapter
  */
 class RestaurantsAdapter(
-    private val values: List<Restaurant>,
+    private val values: List<IRestaurant>,
     private val restaurantListener: IRestaurantListener?
 ) : RecyclerView.Adapter<RestaurantsAdapter.ViewHolder>() {
 
@@ -53,7 +53,7 @@ class RestaurantsAdapter(
          *
          * @param restaurant Restaurant that was clicked
          */
-        fun onClicked(restaurant: Restaurant)
+        fun onClicked(restaurant: IRestaurant)
     }
 
     override fun getItemCount(): Int = values.size
