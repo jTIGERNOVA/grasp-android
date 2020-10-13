@@ -85,11 +85,11 @@ class RestaurantsFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(lat: Float, lng: Float) =
+        fun newInstance(lat: Double, lng: Double) =
             RestaurantsFragment().apply {
                 arguments = Bundle().apply {
-                    putFloat("lat", lat)
-                    putFloat("lng", lng)
+                    putDouble("lat", lat)
+                    putDouble("lng", lng)
                 }
             }
     }

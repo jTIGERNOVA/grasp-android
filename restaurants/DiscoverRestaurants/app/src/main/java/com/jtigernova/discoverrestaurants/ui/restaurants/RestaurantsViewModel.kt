@@ -14,8 +14,8 @@ class RestaurantsViewModel @ViewModelInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
     appRepo: IRestaurantRepository
 ) : BaseViewModel(savedStateHandle) {
-    private val lat: Float = getOrError("lat")
-    private val lng: Float = getOrError("lng")
+    private val lat: Double = getOrError("lat")
+    private val lng: Double = getOrError("lng")
 
     val restaurantsData: MutableLiveData<LiveData<List<Restaurant>>> = MutableLiveData()
     val loadingData = MutableLiveData<Boolean>()

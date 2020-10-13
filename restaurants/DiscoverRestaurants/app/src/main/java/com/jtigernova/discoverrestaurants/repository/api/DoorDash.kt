@@ -46,7 +46,7 @@ class DoorDash() : IRestaurantApi {
      * @param lat Latitude
      * @param lng Longitude
      */
-    override suspend fun getRestaurants(lat: Float, lng: Float): ArrayList<Restaurant> {
+    override suspend fun getRestaurants(lat: Double, lng: Double): ArrayList<Restaurant> {
         var res = arrayListOf<Restaurant>()
 
         //run in background

@@ -19,7 +19,7 @@ class RestaurantRepository(
             field = v
         }
 
-    override fun getRestaurants(lat: Float, lng: Float): LiveData<List<Restaurant>> {
+    override fun getRestaurants(lat: Double, lng: Double): LiveData<List<Restaurant>> {
         val data = MutableLiveData<List<Restaurant>>()
 
         runOnMain {
