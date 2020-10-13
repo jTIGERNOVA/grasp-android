@@ -15,7 +15,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.jtigernova.discoverrestaurants.model.IRestaurant
-import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.ui.restaurant.RestaurantDetailFragment
 import com.jtigernova.discoverrestaurants.ui.restaurants.RestaurantsAdapter
 import com.jtigernova.discoverrestaurants.ui.restaurants.RestaurantsFragment
