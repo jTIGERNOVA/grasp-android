@@ -10,7 +10,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import com.jtigernova.discoverrestaurants.R
 import com.jtigernova.discoverrestaurants.model.IRestaurant
-import com.jtigernova.discoverrestaurants.model.Restaurant
 import com.jtigernova.discoverrestaurants.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,15 +33,15 @@ class RestaurantsFragment : BaseFragment() {
             )
         }
 
-        viewModel.loadingData.value = true
+        viewModel.setLoading(true)
     }
 
     override fun onStart() {
         super.onStart()
 
-        if (viewModel.restaurantsData.hasActiveObservers()) return
+        if (viewModel.getRestaurantsData().hasActiveObservers()) return
 
-        viewModel.loadingData.observe(viewLifecycleOwner) {
+        viewModel.getLoadingData().observe(viewLifecycleOwner) {
             if (it) {
                 progressBar.visibility = View.VISIBLE
             } else {
@@ -50,10 +49,10 @@ class RestaurantsFragment : BaseFragment() {
             }
         }
 
-        viewModel.restaurantsData.value?.observe(viewLifecycleOwner) { data ->
+        viewModel.getRestaurantsData().value?.observe(viewLifecycleOwner) { data ->
             view?.findViewById<RecyclerView>(R.id.list)?.let {
                 loadRestaurants(data = data, view = it) {
-                    viewModel.loadingData.value = false
+                    viewModel.setLoading(false)
                 }
             }
         }
@@ -78,7 +77,11 @@ class RestaurantsFragment : BaseFragment() {
      * @param view View
      * @param done Function to run when refresh has finished
      */
-    private fun loadRestaurants(data: List<IRestaurant>, view: RecyclerView, done: () -> Unit = {}) {
+    private fun loadRestaurants(
+        data: List<IRestaurant>,
+        view: RecyclerView,
+        done: () -> Unit = {}
+    ) {
         view.adapter = RestaurantsAdapter(data, activity as RestaurantsAdapter.IRestaurantListener)
 
         done()

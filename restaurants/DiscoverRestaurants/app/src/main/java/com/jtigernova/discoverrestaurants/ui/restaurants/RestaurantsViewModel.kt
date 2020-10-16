@@ -17,12 +17,20 @@ class RestaurantsViewModel @ViewModelInject constructor(
     private val lat: Double = getOrError("lat")
     private val lng: Double = getOrError("lng")
 
-    val restaurantsData: MutableLiveData<LiveData<List<IRestaurant>>> = MutableLiveData()
-    val loadingData = MutableLiveData<Boolean>()
+    private val restaurantsData: MutableLiveData<LiveData<List<IRestaurant>>> = MutableLiveData()
+    private val loadingData = MutableLiveData<Boolean>()
 
     init {
         appRepo.scope = viewModelScope
 
         restaurantsData.value = appRepo.getRestaurants(lat = lat, lng = lng)
+    }
+
+    fun getRestaurantsData(): LiveData<LiveData<List<IRestaurant>>> = restaurantsData
+
+    fun getLoadingData(): LiveData<Boolean> = loadingData
+
+    fun setLoading(loading: Boolean) {
+        loadingData.value = loading
     }
 }
