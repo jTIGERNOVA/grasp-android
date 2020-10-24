@@ -18,9 +18,9 @@ class GridActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_grid)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.title = "Grid - LiveData"
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = "Grid - LiveData"
         }
 
         if (savedInstanceState == null) {

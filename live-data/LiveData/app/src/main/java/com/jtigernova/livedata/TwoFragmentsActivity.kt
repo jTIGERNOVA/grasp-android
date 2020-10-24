@@ -18,9 +18,9 @@ class TwoFragmentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_2frags)
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.title = "2 Fragments - LiveData"
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = "2 Fragments - LiveData"
         }
 
         if (savedInstanceState == null) {
