@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/fullscreenBackgroundColor"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.LiveData.FullscreenContainer"
+    tools:context=".FullscreenActivity">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="3">
+
+        <fragment
+            android:id="@+id/fragUser"
+            android:name="com.jtigernova.livedata.UserFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user" />
+
+        <fragment
+            android:id="@+id/fragUserHistory"
+            android:name="com.jtigernova.livedata.UserHistoryFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user_history" />
+
+        <fragment
+            android:id="@+id/fragUser2"
+            android:name="com.jtigernova.livedata.UserFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user" />
+
+        <fragment
+            android:id="@+id/fragUser3"
+            android:name="com.jtigernova.livedata.UserFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user" />
+
+        <fragment
+            android:id="@+id/fragUserHistory2"
+            android:name="com.jtigernova.livedata.UserHistoryFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user_history" />
+
+        <fragment
+            android:id="@+id/fragUser4"
+            android:name="com.jtigernova.livedata.UserFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user" />
+
+    </GridLayout>
+
+    <fragment
+        android:id="@+id/fragInput"
+        android:name="com.jtigernova.livedata.InputFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:layout="@layout/fragment_input" />
+</LinearLayout>
