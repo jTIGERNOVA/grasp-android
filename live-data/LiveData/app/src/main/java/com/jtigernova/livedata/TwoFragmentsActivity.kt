@@ -8,19 +8,19 @@ import androidx.activity.viewModels
 import com.jtigernova.livedata.model.GeneralLiveModel
 
 /**
- * Grid
+ * 2 fragments
  */
-class GridActivity : AppCompatActivity() {
+class TwoFragmentsActivity : AppCompatActivity() {
 
     private val viewModel: GeneralLiveModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_grid)
+        setContentView(R.layout.activity_2frags)
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
-            it.title = "Grid - LiveData"
+            it.title = "2 Fragments - LiveData"
         }
 
         if (savedInstanceState == null) {

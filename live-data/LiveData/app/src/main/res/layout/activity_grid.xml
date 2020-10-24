@@ -6,19 +6,21 @@
     android:background="?attr/fullscreenBackgroundColor"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.LiveData.FullscreenContainer"
-    tools:context=".FullscreenActivity">
+    tools:context=".TwoFragmentsActivity">
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="3">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="3">
 
         <fragment
             android:id="@+id/fragUser"
             android:name="com.jtigernova.livedata.UserFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             tools:layout="@layout/fragment_user" />
 
         <fragment
@@ -26,6 +28,8 @@
             android:name="com.jtigernova.livedata.UserHistoryFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             tools:layout="@layout/fragment_user_history" />
 
         <fragment
@@ -33,6 +37,8 @@
             android:name="com.jtigernova.livedata.UserFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             tools:layout="@layout/fragment_user" />
 
         <fragment
@@ -40,6 +46,8 @@
             android:name="com.jtigernova.livedata.UserFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             tools:layout="@layout/fragment_user" />
 
         <fragment
@@ -47,6 +55,8 @@
             android:name="com.jtigernova.livedata.UserHistoryFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             tools:layout="@layout/fragment_user_history" />
 
         <fragment
@@ -54,6 +64,8 @@
             android:name="com.jtigernova.livedata.UserFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             tools:layout="@layout/fragment_user" />
 
     </GridLayout>
@@ -63,6 +75,6 @@
         android:name="com.jtigernova.livedata.InputFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         tools:layout="@layout/fragment_input" />
 </LinearLayout>

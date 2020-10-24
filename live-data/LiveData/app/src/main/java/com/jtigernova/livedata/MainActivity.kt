@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.twoFrags).setOnClickListener {
-            startActivity(Intent(this, FullscreenActivity::class.java))
+            startActivity(Intent(this, TwoFragmentsActivity::class.java))
         }
 
         findViewById<Button>(R.id.grid).setOnClickListener {
