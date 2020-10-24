@@ -6,19 +6,14 @@ import androidx.lifecycle.ViewModel
 
 class GeneralLiveModel : ViewModel() {
 
-    private val user: MutableLiveData<GeneralState> = MutableLiveData()
-
-    val userData: LiveData<GeneralState> = user
-
-//    val nameChange = Transformations.map(user, {
-//        it.user.name
-//    })
+    private val state: MutableLiveData<GeneralState> = MutableLiveData()
+    val userData: LiveData<GeneralState> = state
 
     fun freshUser(name: String) {
-        user.value = GeneralState(user = User(name = name))
+        state.value = GeneralState(user = User(name = name))
     }
 
     fun setUserName(name: String) {
-        user.value = user.value?.setUserName(name)
+        state.value = state.value?.setUserName(name)
     }
 }
