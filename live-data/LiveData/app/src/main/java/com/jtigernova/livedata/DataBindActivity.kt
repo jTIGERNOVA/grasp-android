@@ -4,26 +4,39 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.jtigernova.livedata.model.GeneralLiveModel
 
 /**
- * Grid
+ * Data Binding. NOTE: This activity is broken!
  */
-class GridActivity : AppCompatActivity() {
+class DataBindActivity : AppCompatActivity() {
 
     private val viewModel: GeneralLiveModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_grid)
+//        val binding: ViewDataBinding = DataBindingUtil.inflate(layoutInflater, R.layout.activity_data_binding, null, true)
+
+        setContentView(R.layout.activity_data_binding)
+
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = "Grid - LiveData"
         }
+
+        // Obtain binding
+        val binding: ViewDataBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_data_binding)
+
+        // LiveData needs the lifecycle owner
+        binding.lifecycleOwner = this
 
         if (savedInstanceState == null) {
             viewModel.refresh(name = "NULL")
+
+            viewModel.mock = "NULL"
         }
     }
 

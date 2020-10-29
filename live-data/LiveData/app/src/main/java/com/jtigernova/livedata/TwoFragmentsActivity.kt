@@ -1,7 +1,6 @@
 package com.jtigernova.livedata
 
 import androidx.appcompat.app.AppCompatActivity
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -24,7 +23,7 @@ class TwoFragmentsActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            viewModel.freshUser(name = "NULL")
+            viewModel.refresh(name = "NULL")
         }
     }
 
